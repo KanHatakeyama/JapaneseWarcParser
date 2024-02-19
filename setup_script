@@ -1,0 +1,16 @@
+conda create -n crawl -y
+conda activate crawl
+conda install pip
+pip install requests
+pip install warcio
+pip install beautifulsoup4
+pip install tqdm
+pip install bunkai
+pip install emoji==1.7.0
+pip install nltk
+pip install mecab-python3
+pip install fughashi
+
+sudo apt install mecab -y
+sudo apt install libmecab-dev -y
+sudo apt install mecab-ipadic-utf8 -y
