@@ -11,7 +11,18 @@ pip install nltk
 pip install mecab-python3
 pip install fughashi
 pip install ja-sentence-segmenter
+pip install datasets
+pip install hojichar
 
 sudo apt install mecab -y
 sudo apt install libmecab-dev -y
 sudo apt install mecab-ipadic-utf8 -y
+
+#kenlm 使わない
+#https://zenn.dev/syoyo/articles/529ce949121ca4
+sudo apt install build-essential cmake libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev
+pip install https://github.com/kpu/kenlm/archive/master.zip
+python -m pip install sentencepiece "protobuf<3.20.*"
+mkdir -p data/lm_sp
+wget -c  -P data/lm_sp http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
+wget -c  -P data/lm_sp http://dl.fbaipublicfiles.com/cc_net/lm/ja.sp.model

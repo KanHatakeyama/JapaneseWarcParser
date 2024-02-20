@@ -1,6 +1,7 @@
 # https://github.com/lighttransport/japanese-llama-experiment/blob/main/03_clean_step1/clean_text.py
+
 def char_is_hiragana(c):
-    return u'\u3040' <= c <= u'\u309F'
+    return u'\u3040' <= c <= u'\u309f'
 
 
 def contains_hiragana(s):
