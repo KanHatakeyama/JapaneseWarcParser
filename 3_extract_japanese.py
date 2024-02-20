@@ -10,15 +10,18 @@ extract japanese pages from warc files
 
 """
 make_dir("data/jap_dump")
-
+done_list = []
 while True:
 
     for path in glob.glob("data/warc/*.warc"):
+        if path in done_list:
+            continue
         print("try:" + path)
         with open(path, 'rb') as stream:
             string = stream.read()
         if len(string) == 0:
             print(f"empty file:{path}")
+            done_list.append(path)
         try:
             ja_soup_list = extract_japanese_from_warc(path)
         except Exception as e:

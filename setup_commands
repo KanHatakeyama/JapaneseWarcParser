@@ -10,6 +10,7 @@ pip install emoji==1.7.0
 pip install nltk
 pip install mecab-python3
 pip install fughashi
+pip install ja-sentence-segmenter
 
 sudo apt install mecab -y
 sudo apt install libmecab-dev -y

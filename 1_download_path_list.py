@@ -15,6 +15,9 @@ make_dir("data/path_list")
 
 for url in path_urls:
     file_name = url.split("/")[-2]+".gz"
-    download_file(url, f"data/path_list/{file_name}")
-    decompress_gz(f"data/path_list/{file_name}",
-                  f"data/path_list/{file_name.split('.')[0]}")
+    try:
+        download_file(url, f"data/path_list/{file_name}")
+        decompress_gz(f"data/path_list/{file_name}",
+                      f"data/path_list/{file_name.split('.')[0]}")
+    except:
+        pass

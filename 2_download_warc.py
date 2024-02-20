@@ -30,5 +30,10 @@ for path in path_list:
     filename = path.replace("/", "_")
     gz_path = f"data/gz/{filename}"
     warc_path = f"data/warc/{filename}".replace(".gz", "")
-    download_file(url, gz_path)
-    decompress_gz(gz_path, warc_path, remove_gz=False, fill_blank_gz=True)
+    try:
+        download_file(url, gz_path)
+        decompress_gz(gz_path, warc_path, remove_gz=False, fill_blank_gz=True)
+    except Exception as e:
+        print(e)
+        print("fail loading "+url)
+        continue
