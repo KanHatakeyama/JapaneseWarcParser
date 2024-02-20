@@ -36,5 +36,5 @@ while True:
 
         with open(path, "w") as f:
             f.write("")
-
-    time.sleep(300)
+    print("sleeping...")
+    time.sleep(30)

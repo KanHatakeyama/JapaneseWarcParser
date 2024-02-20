@@ -13,10 +13,17 @@ pip install fughashi
 pip install ja-sentence-segmenter
 pip install datasets
 pip install hojichar
+pip install scikit-learn
 
 sudo apt install mecab -y
 sudo apt install libmecab-dev -y
 sudo apt install mecab-ipadic-utf8 -y
+
+#fasttext
+pip install gensim
+cd data/fasttext
+wget https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.ja.300.bin.gz
+gzip -d cc.ja.300.bin.gz
 
 #kenlm 使わない
 #https://zenn.dev/syoyo/articles/529ce949121ca4

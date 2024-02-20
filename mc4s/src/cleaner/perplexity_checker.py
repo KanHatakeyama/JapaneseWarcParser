@@ -15,3 +15,11 @@ class PerplexityChecker:
         sentence = " ".join(toks)
         ppl = self.ken_model.perplexity(sentence)
         return ppl
+
+
+"""
+sp_path = "../data/lm_sp/ja.sp.model"
+arpa_path = "../data/lm_sp/ja.arpa.bin"
+from src.cleaner.perplexity_checker import PerplexityChecker
+perp_checker = PerplexityChecker(arpa_path,sp_path)
+"""

@@ -19,7 +19,7 @@ cleaner = Compose([
     document_filters.JSONLoader(key="text"),
     document_filters.AcceptJapanese(),
     # document_filters.DiscardRareKuten(),
-    document_filters.DocumentLengthFilter(min_doc_len=0, max_doc_len=50000),
+    document_filters.DocumentLengthFilter(min_doc_len=100, max_doc_len=50000),
     document_filters.DiscardAdultContentJa(),
     document_filters.DiscardAdultContentEn(),
     document_filters.DiscardDiscriminationContentJa(),
