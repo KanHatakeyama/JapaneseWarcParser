@@ -16,10 +16,11 @@ def wakati_sentence(text):
             continue
         pos = feature.split(',')[0]
         surface = feature.split(',')[6]  # 原型に直す
-        if pos in ['名詞', '形容詞', '動詞']:
-            words.append(surface)
-        else:
-            continue
+        words.append(surface)
+        # if pos in ['名詞', '形容詞', '動詞',"記号"]:
+        #    words.append(surface)
+        # else:
+        #    continue
     words = [w for w in words if w != '*']
     return ' '.join(words)
 
@@ -45,6 +46,7 @@ class DatasetAnnotator:
             os.makedirs(out_path)
 
         self.out_path = out_path
+        self.fasttext_path = self.out_path+"/text_labels"
 
         try:
             self.load_annotations()
@@ -181,7 +183,7 @@ class DatasetAnnotator:
 
         self.model = model
 
-    def predict(self, text):
+    def predict(self, text, return_raw=False):
         if self.model is None:
             print("Model is not trained. loading model")
             # load model
@@ -189,9 +191,13 @@ class DatasetAnnotator:
 
         text = self.wakati_sentence(text)
         ret = self.model.predict(text)
-        return ret
 
-    def ask_annotations(self, n_annotations=300):
+        if return_raw:
+            return ret
+        else:
+            return int(ret[0][0].split("_")[-1])
+
+    def ask_annotations(self, n_annotations=1000):
         print("""
 begin annotations
 Enter: annnotate as "bad"
