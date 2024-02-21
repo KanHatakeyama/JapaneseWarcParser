@@ -28,7 +28,7 @@ dataset = mc4_dataset
 annotator = DatasetAnnotator(dataset, clean_func=clean_text, n_preload=50000)
 
 # 何行ごとにファイルを分割するか
-n_split = 10**6
+n_split = 10**5
 
 corpus_dir = "corpus"
 if not os.path.exists(corpus_dir):
