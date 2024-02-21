@@ -12,6 +12,7 @@
 python mc4_cleaner.py
 ```
 - 備考
+    - はじめに､[clean_dev.ipynb](clean_dev.ipynb)でfasttextのモデルを作ります.
     - 100 it/sほどの速度で動きます｡
         - 87337884 recordあるので､240 hrほどかかりそうです｡
     - 並列化､高速化の余地は沢山あると思います
