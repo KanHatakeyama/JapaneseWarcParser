@@ -161,4 +161,4 @@ cython_debug/
 
 data/
 temp/
-mc4s/annotations/original_data/
+mc4s/annotations/text_labels

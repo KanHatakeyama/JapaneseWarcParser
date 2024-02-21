@@ -56,5 +56,6 @@ def clean_text(original_text):
     paragraphs = text_to_cleaned_paragraphs(original_text)
     text = "\n".join(paragraphs)
     if text != "":
+        # pass
         text = hoji_filter(text)
     return text
