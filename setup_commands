@@ -16,6 +16,10 @@ pip install hojichar
 pip install scikit-learn
 pip install python-tlsh
 
+#torch
+#pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+
 sudo apt install mecab -y
 sudo apt install libmecab-dev -y
 sudo apt install mecab-ipadic-utf8 -y

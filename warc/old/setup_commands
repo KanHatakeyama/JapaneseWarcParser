@@ -1,0 +1,5 @@
+conda create -n ginza python=3.9
+conda activate ginza
+pip install setuptools_rust
+pip install -U ginza ja_ginza_electra #不要?
+pip install ginza ja_ginza
