@@ -22,6 +22,8 @@ python mc4_cleaner.py
 # TODO
 - 並列化
 - datasetsライブラリへのラッピング
-    - datasetsライブラリの継承
+    - datasetsライブラリを継承したクラスを作る
+        - cleaned_mc4_dataset 的なやつ
     - __init__を呼び出した時に､フォルダを生成し､一連の前処理を施す
     - それ以降は､ dataset[0] 的な感じで中身を呼び出せるようにしたい
+- mc4以外のデータセット(例えばoscar)でも同じように処理を施す
