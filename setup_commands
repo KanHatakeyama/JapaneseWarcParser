@@ -19,22 +19,22 @@ pip install python-tlsh
 #torch
 #pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-
+#mecab 日本語の解析に使います
 sudo apt install mecab -y
 sudo apt install libmecab-dev -y
 sudo apt install mecab-ipadic-utf8 -y
 
-#fasttext
+#fasttext 記事のフィルタリングに使います
 pip install gensim
-cd data/fasttext
+cd mc4s/annotations/text_labels/
 wget https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.ja.300.bin.gz
 gzip -d cc.ja.300.bin.gz
 
-#kenlm 使わない
+#kenlm  warcファイルの解析に使います
 #https://zenn.dev/syoyo/articles/529ce949121ca4
 sudo apt install build-essential cmake libboost-system-dev libboost-thread-dev libboost-program-options-dev libboost-test-dev libeigen3-dev zlib1g-dev libbz2-dev liblzma-dev
 pip install https://github.com/kpu/kenlm/archive/master.zip
 python -m pip install sentencepiece "protobuf<3.20.*"
-mkdir -p data/lm_sp
-wget -c  -P data/lm_sp http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
-wget -c  -P data/lm_sp http://dl.fbaipublicfiles.com/cc_net/lm/ja.sp.model
+mkdir -p warc/data/lm_sp
+wget -c  -P warc/data/lm_sp http://dl.fbaipublicfiles.com/cc_net/lm/ja.arpa.bin
+wget -c  -P warc/data/lm_sp http://dl.fbaipublicfiles.com/cc_net/lm/ja.sp.model
