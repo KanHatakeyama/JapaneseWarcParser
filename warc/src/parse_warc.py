@@ -36,22 +36,19 @@ def pre_clean(soup):
 
 def extract_japanese_from_warc(path,
                                save_dir="json",
-                               ja_soup_list=[],
                                max_num=10**10,
                                ):
-
+    ja_soup_list = []
     path = path.replace("\\", "/")  # for windows env
     filename = path.split("/")[-1].replace(".warc", ".json")
     if os.path.exists(f"{save_dir}/{filename}"):
         print("already done")
         return
-
     # 途中から再開する用の位置情報の取得
     if len(ja_soup_list) > 0:
         fin_record_id = ja_soup_list[-1]["record_id"]
     else:
         fin_record_id = 0
-
     # WARCファイルを開く
     record_id = 0
     with open(path, 'rb') as stream:
@@ -59,35 +56,30 @@ def extract_japanese_from_warc(path,
             record_id += 1
             if record_id <= fin_record_id:
                 continue
-            try:
-                if record.rec_type == 'response':
-                    if record.http_headers.get_header('Content-Type') == 'text/html':
-                        content = record.content_stream().read()
-                        soup = BeautifulSoup(content, 'html.parser')
-
-                        # <html>タグからlang属性を取得
-                        html_tag = soup.find('html')
-                        if html_tag and html_tag.has_attr('lang'):
-                            lang = html_tag['lang']
-                            # print(f"Found language: {lang}")
-                            texts = pre_clean(soup)
-                            if len(texts) == 0:
-                                continue
-                            if lang == "ja":
-                                d = {
-                                    "record_id": record_id,
-                                    "url": record.rec_headers.get_header('WARC-Target-URI'),
-                                    "title": soup.title.string,
-                                    "timestamp": record.rec_headers.get_header('WARC-Date'),
-                                    "text": texts,
-                                }
-                                ja_soup_list.append(d)
-                                # print(f"Found Japanese: {d['url']}")
-
-                            if len(ja_soup_list) > max_num:
-                                break
-            except:
-                continue
-    # with open(f"{save_dir}/{filename}", "w") as f:
-    #    json.dump(ja_soup_list, f, indent=4, ensure_ascii=False)
+            if record.rec_type == 'response':
+                if record.http_headers.get_header('Content-Type') == 'text/html':
+                    content = record.content_stream().read()
+                    soup = BeautifulSoup(content, 'html.parser')
+                    # <html>タグからlang属性を取得
+                    html_tag = soup.find('html')
+                    if html_tag and html_tag.has_attr('lang'):
+                        lang = html_tag['lang']
+                        texts = pre_clean(soup)
+                        if len(texts) == 0:
+                            continue
+                        if lang == "ja":
+                            if soup.title is not None:
+                                title = soup.title.string
+                            else:
+                                title = ""
+                            d = {
+                                "record_id": record_id,
+                                "url": record.rec_headers.get_header('WARC-Target-URI'),
+                                "title": title,
+                                "timestamp": record.rec_headers.get_header('WARC-Date'),
+                                "text": texts,
+                            }
+                            ja_soup_list.append(d)
+                        if len(ja_soup_list) > max_num:
+                            break
     return ja_soup_list
