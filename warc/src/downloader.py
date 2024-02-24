@@ -32,18 +32,20 @@ def cc_path_to_urls(cc_path):
 def download_warc_file(path):
     url, gz_path, warc_path = cc_path_to_urls(path)
 
-    if os.path.exists(gz_path):
-        print(f"ファイルがすでに存在します: {gz_path}")
-        return None
+    if os.path.exists(warc_path):
+        print(f"warc_pathにはファイルが存在しています")
+        return warc_path
     try:
-        print("downloading "+url)
-        download_file(url, gz_path)
+        if os.path.exists(gz_path):
+            print(f"gz_pathがすでに存在します: {gz_path}")
+        else:
+            print("downloading "+url)
+            download_file(url, gz_path)
         print("decompressing "+gz_path)
         decompress_gz(gz_path, warc_path,
                       remove_gz=False, fill_blank_gz=True)
-
         return warc_path
     except Exception as e:
         print(e)
         print("fail loading "+url)
-        return None
+        return warc_path
