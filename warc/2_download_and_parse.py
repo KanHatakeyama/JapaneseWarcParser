@@ -15,6 +15,7 @@ import random
 import argparse
 sys.path.append("../")
 
+from tqdm import tqdm
 from datasets import load_dataset
 
 from src.cleaner.LineChecker import remove_dup_lines, remove_multi_headers
@@ -28,7 +29,7 @@ if True:
     from mc4s.src.cleaner.auto_cleaner import clean_text
 
 
-def download_and_parse(cc_path, is_clean=False):
+def download_and_parse(cc_path, is_clean=False, base_dir=None):
     # download warc file
     warc_path = download_warc_file(cc_path)
 
@@ -67,7 +68,10 @@ def download_and_parse(cc_path, is_clean=False):
             file_name = os.path.basename(warc_path)
             base_name = os.path.splitext(file_name)[0]
             file_base_name = "_".join(base_name.split("_")[2:])
-            save_gz_path = f"/tmp/{file_base_name}_japanese.json.gz"
+            if base_dir is None:
+                base_dir = "/tmp"
+            os.makedirs(base_dir, exist_ok=True)
+            save_gz_path = f"{base_dir}/{file_base_name}_japanese.json.gz"
             with gzip.open(save_gz_path, 'wt', encoding="ascii") as zipfile:
                json.dump(save_dict, zipfile)
         # clear warc file
@@ -93,9 +97,8 @@ def main():
     # argparse
     parser = argparse.ArgumentParser(
             "Download/unzip/process the Japanese language of the downloaded commoncrawl gz path")
-    parser.add_argument("seed", default=42, type=int, help="Path list shuffle seed")
-    parser.add_argument("is_clean", type=bool, default=True help="Flag for whether to perform data cleaning")
-    parser.add_argument("batch_nubmer", default=-1, type=int, default=True 
+    parser.add_argument("--is_clean", type=bool, default=True, help="Flag for whether to perform data cleaning")
+    parser.add_argument("batch_number", default=-1, type=int, 
                         help="Identification number when processing the path list by dividing it")
     args = parser.parse_args()
 
@@ -117,11 +120,15 @@ def main():
     make_dir(corpus_dir)
 
     # get path list
-    random.seed(args.seed)
     cc_path_list = get_cc_path_list()
-    random.shuffle(cc_path_list)
-    for cc_path in cc_path_list:
-        download_and_parse(cc_path, is_clean=args.is_clean)
+    start_idx, end_idx = args.batch_number * 3, (args.batch_number+1) * 3
+    target_path_list  = cc_path_list[start_idx:end_idx]
+    save_dir = f"data/japanese_record/batch{args.batch_number}"
+    submit_dir = f"data/japanese_record_submit/batch{args.batch_number}"
+    for cc_path in tqdm(target_path_list):
+        download_and_parse(cc_path, is_clean=args.is_clean, base_dir=save_dir)
+    shutil.make_archive(submit_dir,
+                        format='zip', root_dir=save_dir)
 
 if __name__ == "__main__":
     main()
