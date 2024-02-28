@@ -12,6 +12,7 @@ Based on the path list downloaded from CommonCrawl
 """
 import sys
 import random
+import shutil
 import argparse
 sys.path.append("../")
 
@@ -28,6 +29,22 @@ if True:
     from mc4s.src.classifier.DatasetAnnotator import DatasetAnnotator
     from mc4s.src.cleaner.auto_cleaner import clean_text
 
+# integrator for integrating text split by tag
+integrator = WordIntegrator(
+    checker=PerplexityChecker("data/lm_sp/ja.arpa.bin",
+                              "data/lm_sp/ja.sp.model",
+                              ),
+    filter_path="dict/header_filter.txt",
+    start_filter_path="dict/start_filter.txt",
+    end_filter_path="dict/end_filter.txt"
+)
+# annotator for classifying text
+dataset = load_dataset('mc4', 'ja', split='train', streaming=True)
+annotator = DatasetAnnotator(dataset, clean_func=clean_text, n_preload=500,
+                             out_path="../mc4s/annotations"
+                             )
+corpus_dir = "data/corpus"
+make_dir(corpus_dir)
 
 def download_and_parse(cc_path, is_clean=False, base_dir=None):
     # download warc file
@@ -102,31 +119,14 @@ def main():
                         help="Identification number when processing the path list by dividing it")
     args = parser.parse_args()
 
-    # integrator for integrating text split by tag
-    integrator = WordIntegrator(
-        checker=PerplexityChecker("data/lm_sp/ja.arpa.bin",
-                                  "data/lm_sp/ja.sp.model",
-                                  ),
-        filter_path="dict/header_filter.txt",
-        start_filter_path="dict/start_filter.txt",
-        end_filter_path="dict/end_filter.txt"
-    )
-    # annotator for classifying text
-    dataset = load_dataset('mc4', 'ja', split='train', streaming=True)
-    annotator = DatasetAnnotator(dataset, clean_func=clean_text, n_preload=500,
-                                 out_path="../mc4s/annotations"
-                                 )
-    corpus_dir = "data/corpus"
-    make_dir(corpus_dir)
-
     # get path list
     cc_path_list = get_cc_path_list()
-    start_idx, end_idx = args.batch_number * 3, (args.batch_number+1) * 3
+    start_idx, end_idx = args.batch_number * 10, (args.batch_number+1) * 10
     target_path_list  = cc_path_list[start_idx:end_idx]
     save_dir = f"data/japanese_record/batch{args.batch_number}"
     submit_dir = f"data/japanese_record_submit/batch{args.batch_number}"
     for cc_path in tqdm(target_path_list):
-        download_and_parse(cc_path, is_clean=args.is_clean, base_dir=save_dir)
+        download_and_parse(cc_path, is_clean=False, base_dir=save_dir)
     shutil.make_archive(submit_dir,
                         format='zip', root_dir=save_dir)
 
