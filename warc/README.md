@@ -14,8 +14,7 @@ Google Colab Notebookになっています. CommonCrawlのデータ数は
 膨大であり, 個人だけでは対処しきれません. ぜひ, 分割抽出/加工に
 ご協力をお願いいたします.
 
-
-[![Open In Colab](https://colab.research.google.com/drive/1Gq8HQ0iyASH5iOAkosclJEQTwYJvYRmy#scrollTo=UawI0uZgAjz6)]
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Gq8HQ0iyASH5iOAkosclJEQTwYJvYRmy#scrollTo=UawI0uZgAjz6)
 
 
 ## 処理に使用するファイルの説明
