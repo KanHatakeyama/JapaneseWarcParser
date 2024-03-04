@@ -6,7 +6,7 @@ CommonCrawlに含まれるWARCファイルをダウンロードし,日本語デ�
 
 なお, このスクリプトの内日本語データの抽出を行うところまではGoogle Colab Notebookでも対応可能です. CommonCrawlのデータ数は膨大であり, 個人だけでは対処しきれないので, 分割抽出/加工を行う計画です.
 
-このスクリプトはGENIAC(東大 松尾・岩澤研究室のプロジェクト)の活動として作成しています.
+このスクリプトはGENIAC(東大 松尾・岩澤研究室のプロジェクト, 2024)の活動の一環としても作成しています.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Gq8HQ0iyASH5iOAkosclJEQTwYJvYRmy#scrollTo=UawI0uZgAjz6)
 
